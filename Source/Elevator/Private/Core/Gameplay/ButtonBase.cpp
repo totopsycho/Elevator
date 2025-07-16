@@ -11,6 +11,9 @@ AButtonBase::AButtonBase()
 
 	CacheButtonMesh = CreateDefaultSubobject<UStaticMeshComponent>("Cache Button Mesh");
 
+	ButtonMesh = CreateDefaultSubobject<UStaticMeshComponent>("Button Mesh");
+	ButtonMesh->SetupAttachment(CacheButtonMesh);
+
 }
 
 // Called when the game starts or when spawned

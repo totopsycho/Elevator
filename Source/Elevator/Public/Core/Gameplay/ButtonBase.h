@@ -22,6 +22,11 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* CacheButtonMesh;
 
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* ButtonMesh;
+
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
