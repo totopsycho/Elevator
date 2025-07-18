@@ -17,7 +17,14 @@ AButtonBase::AButtonBase()
 
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>("Trigger Box");
 	TriggerBox->SetupAttachment(ButtonMesh);
+	TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &AButtonBase::OnComponentOverlapTrigger);
 
+}
+
+void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//Effectue la logique lorsqu'un élément chevauche mon trigger
+	UE_LOG(LogTemp, Warning, TEXT("Overlap Detected"));
 }
 
 // Called when the game starts or when spawned
