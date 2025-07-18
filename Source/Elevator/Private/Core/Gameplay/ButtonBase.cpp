@@ -2,6 +2,7 @@
 
 
 #include "Core/Gameplay/ButtonBase.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 AButtonBase::AButtonBase()
@@ -13,6 +14,9 @@ AButtonBase::AButtonBase()
 
 	ButtonMesh = CreateDefaultSubobject<UStaticMeshComponent>("Button Mesh");
 	ButtonMesh->SetupAttachment(CacheButtonMesh);
+
+	TriggerBox = CreateDefaultSubobject<UBoxComponent>("Trigger Box");
+	TriggerBox->SetupAttachment(ButtonMesh);
 
 }
 

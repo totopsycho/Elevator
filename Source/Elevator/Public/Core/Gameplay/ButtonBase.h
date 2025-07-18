@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "ButtonBase.generated.h"
 
+class UBoxComponent;
+
 UCLASS()
 class ELEVATOR_API AButtonBase : public AActor
 {
@@ -24,6 +26,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* ButtonMesh;
+
+	UPROPERTY(EditAnywhere)
+	UBoxComponent* TriggerBox;
 
 
 
