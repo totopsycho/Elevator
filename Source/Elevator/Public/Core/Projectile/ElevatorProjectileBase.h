@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ElevatorProjectileBase.generated.h"
 #include "GameFramework/Actor.h"
+#include "ElevatorProjectileBase.generated.h"
+
 
 class USphereComponent;
 class UProjectileMovementComponent;

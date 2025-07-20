@@ -5,6 +5,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Engine/World.h"
 #include "ShooterProjectile.h"
+#include "Core/Projectile/ElevatorProjectileBase.h"
 #include "ShooterWeaponHolder.h"
 #include "Components/SceneComponent.h"
 #include "TimerManager.h"
@@ -171,8 +172,9 @@ void AShooterWeapon::FireProjectile(const FVector& TargetLocation)
 	SpawnParams.Owner = GetOwner();
 	SpawnParams.Instigator = PawnOwner;
 
-	AShooterProjectile* Projectile = GetWorld()->SpawnActor<AShooterProjectile>(ProjectileClass, ProjectileTransform, SpawnParams);
+	/*AShooterProjectile* Projectile = GetWorld()->SpawnActor<AShooterProjectile>(ProjectileClass, ProjectileTransform, SpawnParams);*/
 
+	AElevatorProjectileBase* ElevatorProjectile = GetWorld()->SpawnActor<AElevatorProjectileBase>(ElevatorProjectileClass, ProjectileTransform, SpawnParams);
 	// play the firing montage
 	WeaponOwner->PlayFiringMontage(FiringMontage);
 

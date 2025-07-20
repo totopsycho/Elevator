@@ -13,11 +13,15 @@ AElevatorProjectileBase::AElevatorProjectileBase()
 
 	
 	SphereCollision = CreateDefaultSubobject<USphereComponent>("Sphere Collision");
+	SphereCollision->SetSphereRadius(20.f);
 
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(" Projectile Mesh");
 	ProjectileMesh->SetupAttachment(SphereCollision);
+	ProjectileMesh->SetRelativeScale3D(FVector(0.1f, 0.1f, 0.1f));
 
 	ProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("Projectile Movement Comp");
+	ProjectileMovementComp->InitialSpeed= 3000.f;
+	ProjectileMovementComp->MaxSpeed = 3000.f;
 	
 
 

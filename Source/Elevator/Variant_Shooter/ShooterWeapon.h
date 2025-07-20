@@ -10,6 +10,7 @@
 
 class IShooterWeaponHolder;
 class AShooterProjectile;
+class AElevatorProjectileBase;
 class USkeletalMeshComponent;
 class UAnimMontage;
 class UAnimInstance;
@@ -41,6 +42,9 @@ protected:
 	/** Type of projectiles this weapon will shoot */
 	UPROPERTY(EditAnywhere, Category="Ammo")
 	TSubclassOf<AShooterProjectile> ProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category = "Ammo")
+	TSubclassOf<AElevatorProjectileBase> ElevatorProjectileClass;
 
 	/** Number of bullets in a magazine */
 	UPROPERTY(EditAnywhere, Category="Ammo")
