@@ -12,12 +12,13 @@ AElevatorProjectileBase::AElevatorProjectileBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	
-	SphereCollision = CreateDefaultSubobject<USphereComponent>("Sphere Collision");
+	RootComponent = SphereCollision = CreateDefaultSubobject<USphereComponent>("Sphere Collision");
 	SphereCollision->SetSphereRadius(20.f);
 
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(" Projectile Mesh");
 	ProjectileMesh->SetupAttachment(SphereCollision);
 	ProjectileMesh->SetRelativeScale3D(FVector(0.1f, 0.1f, 0.1f));
+	ProjectileMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	ProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("Projectile Movement Comp");
 	ProjectileMovementComp->InitialSpeed= 3000.f;
