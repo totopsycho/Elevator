@@ -24,6 +24,17 @@ AButtonBase::AButtonBase()
 void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	//Effectue la logique lorsqu'un élément chevauche mon trigger
+
+	//1. Changer le matériel du button en rouge
+
+	//2 . Le button part vers l'arrière
+
+	//3. On envoie un événement au blueprint (pour la timeline)
+
+	//4 . Le button va revenir à sa position initiale (VLerp)
+
+	//5 . A la fin de la timeline, on revient à la couleur verte
+
 	UE_LOG(LogTemp, Warning, TEXT("Overlap Detected"));
 }
 
