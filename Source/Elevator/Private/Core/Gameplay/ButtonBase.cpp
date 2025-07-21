@@ -29,9 +29,10 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 	ButtonMesh->SetMaterial(0, ButtonMesh->GetMaterial(1));
 
 	//2 . Le button part vers l'arrière
-	FVector InitialButtonLocation = ButtonMesh->GetRelativeLocation();
+	InitialButtonLocation = ButtonMesh->GetRelativeLocation();
 	ButtonMesh->SetRelativeLocation(FVector(InitialButtonLocation.X, InitialButtonLocation.Y,
 		InitialButtonLocation.Z - 20.f));
+	BackButtonLocation = ButtonMesh->GetRelativeLocation();
 
 	//3. On envoie un événement au blueprint (pour la timeline)
 

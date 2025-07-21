@@ -35,6 +35,12 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UBoxComponent* TriggerBox;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Button")
+	FVector InitialButtonLocation;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Button")
+	FVector BackButtonLocation;
+
 
 
 public:	
