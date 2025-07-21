@@ -35,7 +35,7 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 	BackButtonLocation = ButtonMesh->GetRelativeLocation();
 
 	//3. On envoie un événement au blueprint (pour la timeline)
-
+	BP_ResetButtonPosition();
 	//4 . Le button va revenir à sa position initiale (VLerp)
 
 	//5 . A la fin de la timeline, on revient à la couleur verte

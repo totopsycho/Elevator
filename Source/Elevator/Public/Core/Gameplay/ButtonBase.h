@@ -41,6 +41,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Button")
 	FVector BackButtonLocation;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void BP_ResetButtonPosition();
+
 
 
 public:	
