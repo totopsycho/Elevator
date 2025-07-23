@@ -29,7 +29,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* CacheButtonMesh;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* ButtonMesh;
 
 	UPROPERTY(EditAnywhere)
