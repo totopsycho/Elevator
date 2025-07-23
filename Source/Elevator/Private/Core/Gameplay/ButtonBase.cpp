@@ -39,11 +39,11 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 
 		//3. On envoie un événement au blueprint (pour la timeline)
 		BP_ResetButtonPosition();
-		//4 . Le button va revenir à sa position initiale (VLerp)
+		
 
 		//5 . A la fin de la timeline, on revient à la couleur verte
 
-		UE_LOG(LogTemp, Warning, TEXT("Overlap Detected"));
+
 
 	}
 	
@@ -58,9 +58,17 @@ void AButtonBase::BeginPlay()
 
 void AButtonBase::OnTimelineUpdateButton(float alpha)
 {
+	//4 . Le button va revenir à sa position initiale (VLerp)
 	ButtonMesh->SetRelativeLocation(UKismetMathLibrary::VLerp(BackButtonLocation, InitialButtonLocation, alpha));
 	
 }
+
+void AButtonBase::OnTimelineFinished()
+{
+	ButtonMesh->SetMaterial(0, ButtonMesh->GetMaterial(2));
+	IsButtonActivated = false;
+}
+
 
 // Called every frame
 void AButtonBase::Tick(float DeltaTime)

@@ -47,6 +47,10 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void OnTimelineUpdateButton(float alpha);
 
+	UFUNCTION(BlueprintCallable)
+	void OnTimelineFinished();
+	
+
 	UPROPERTY()
 	bool IsButtonActivated = false;
 
