@@ -44,6 +44,9 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_ResetButtonPosition();
 
+	UFUNCTION(BlueprintCallable)
+	void OnTimelineUpdateButton(float alpha);
+
 	UPROPERTY()
 	bool IsButtonActivated = false;
 

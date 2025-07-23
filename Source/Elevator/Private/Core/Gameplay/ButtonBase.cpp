@@ -3,6 +3,7 @@
 
 #include "Core/Gameplay/ButtonBase.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AButtonBase::AButtonBase()
@@ -52,6 +53,12 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 void AButtonBase::BeginPlay()
 {
 	Super::BeginPlay();
+	
+}
+
+void AButtonBase::OnTimelineUpdateButton(float alpha)
+{
+	ButtonMesh->SetRelativeLocation(UKismetMathLibrary::VLerp(BackButtonLocation, InitialButtonLocation, alpha));
 	
 }
 
