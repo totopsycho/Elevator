@@ -22,6 +22,8 @@ public:
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
 		const FHitResult& SweepResult);
 
+	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -37,6 +39,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Button")
 	FVector InitialButtonLocation;
+
+	UFUNCTION()
+	void OnProjeticleStartTriggering();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Button")
 	FVector BackButtonLocation;

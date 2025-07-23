@@ -27,26 +27,25 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 	//Effectue la logique lorsqu'un élément chevauche mon trigger
 	if (!IsButtonActivated)
 	{
-		IsButtonActivated = true;
-		//1. Changer le matériel du button en rouge
-		ButtonMesh->SetMaterial(0, ButtonMesh->GetMaterial(1));
-
-		//2 . Le button part vers l'arrière
-		InitialButtonLocation = ButtonMesh->GetRelativeLocation();
-		ButtonMesh->SetRelativeLocation(FVector(InitialButtonLocation.X, InitialButtonLocation.Y,
-			InitialButtonLocation.Z - 20.f));
-		BackButtonLocation = ButtonMesh->GetRelativeLocation();
+		OnProjeticleStartTriggering();
 
 		//3. On envoie un événement au blueprint (pour la timeline)
 		BP_ResetButtonPosition();
-		
-
-		//5 . A la fin de la timeline, on revient à la couleur verte
-
-
 
 	}
-	
+}
+
+void AButtonBase::OnProjeticleStartTriggering()
+{
+	IsButtonActivated = true;
+	//1. Changer le matériel du button en rouge
+	ButtonMesh->SetMaterial(0, ButtonMesh->GetMaterial(1));
+
+	//2 . Le button part vers l'arrière
+	InitialButtonLocation = ButtonMesh->GetRelativeLocation();
+	ButtonMesh->SetRelativeLocation(FVector(InitialButtonLocation.X, InitialButtonLocation.Y,
+		InitialButtonLocation.Z - 20.f));
+	BackButtonLocation = ButtonMesh->GetRelativeLocation();
 }
 
 // Called when the game starts or when spawned
@@ -65,6 +64,7 @@ void AButtonBase::OnTimelineUpdateButton(float alpha)
 
 void AButtonBase::OnTimelineFinished()
 {
+	//5 . A la fin de la timeline, on revient à la couleur verte
 	ButtonMesh->SetMaterial(0, ButtonMesh->GetMaterial(2));
 	IsButtonActivated = false;
 }
