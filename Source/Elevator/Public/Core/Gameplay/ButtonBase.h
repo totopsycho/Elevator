@@ -44,6 +44,8 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_ResetButtonPosition();
 
+	UPROPERTY()
+	bool IsButtonActivated = false;
 
 
 public:	

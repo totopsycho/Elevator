@@ -24,23 +24,28 @@ AButtonBase::AButtonBase()
 void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	//Effectue la logique lorsqu'un élément chevauche mon trigger
+	if (!IsButtonActivated)
+	{
+		IsButtonActivated = true;
+		//1. Changer le matériel du button en rouge
+		ButtonMesh->SetMaterial(0, ButtonMesh->GetMaterial(1));
 
-	//1. Changer le matériel du button en rouge
-	ButtonMesh->SetMaterial(0, ButtonMesh->GetMaterial(1));
+		//2 . Le button part vers l'arrière
+		InitialButtonLocation = ButtonMesh->GetRelativeLocation();
+		ButtonMesh->SetRelativeLocation(FVector(InitialButtonLocation.X, InitialButtonLocation.Y,
+			InitialButtonLocation.Z - 20.f));
+		BackButtonLocation = ButtonMesh->GetRelativeLocation();
 
-	//2 . Le button part vers l'arrière
-	InitialButtonLocation = ButtonMesh->GetRelativeLocation();
-	ButtonMesh->SetRelativeLocation(FVector(InitialButtonLocation.X, InitialButtonLocation.Y,
-		InitialButtonLocation.Z - 20.f));
-	BackButtonLocation = ButtonMesh->GetRelativeLocation();
+		//3. On envoie un événement au blueprint (pour la timeline)
+		BP_ResetButtonPosition();
+		//4 . Le button va revenir à sa position initiale (VLerp)
 
-	//3. On envoie un événement au blueprint (pour la timeline)
-	BP_ResetButtonPosition();
-	//4 . Le button va revenir à sa position initiale (VLerp)
+		//5 . A la fin de la timeline, on revient à la couleur verte
 
-	//5 . A la fin de la timeline, on revient à la couleur verte
+		UE_LOG(LogTemp, Warning, TEXT("Overlap Detected"));
 
-	UE_LOG(LogTemp, Warning, TEXT("Overlap Detected"));
+	}
+	
 }
 
 // Called when the game starts or when spawned
