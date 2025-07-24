@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Core/Interfaces/ProjectileInterface.h"
 #include "ElevatorProjectileBase.generated.h"
 
 
@@ -11,7 +12,7 @@ class USphereComponent;
 class UProjectileMovementComponent;
 
 UCLASS()
-class ELEVATOR_API AElevatorProjectileBase : public AActor
+class ELEVATOR_API AElevatorProjectileBase : public AActor, public IProjectileInterface
 {
 	GENERATED_BODY()
 	
