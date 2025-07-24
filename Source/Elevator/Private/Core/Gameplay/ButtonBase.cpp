@@ -4,6 +4,7 @@
 #include "Core/Gameplay/ButtonBase.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Core/Projectile/ElevatorProjectileBase.h"
 
 // Sets default values
 AButtonBase::AButtonBase()
@@ -24,8 +25,9 @@ AButtonBase::AButtonBase()
 
 void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	AElevatorProjectileBase* ProjectileReference = Cast<AElevatorProjectileBase>(OtherActor);
 	//Effectue la logique lorsqu'un élément chevauche mon trigger
-	if (!IsButtonActivated)
+	if (!IsButtonActivated && OtherActor == ProjectileReference)
 	{
 		OnProjeticleStartTriggering();
 
