@@ -28,6 +28,16 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* ElevatorMesh;
 
+	UPROPERTY(EditInstanceOnly,BlueprintReadOnly)
+	bool StartMovingUp;
+
+	UPROPERTY()
+	FVector InitialLocation;
+	UPROPERTY(BlueprintReadOnly)
+	FVector ALocation;
+	UPROPERTY(BlueprintReadOnly)
+	FVector BLocation;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

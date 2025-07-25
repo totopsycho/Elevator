@@ -21,6 +21,19 @@ AElevatorBase::AElevatorBase()
 void AElevatorBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	InitialLocation = ElevatorMesh->GetRelativeLocation();
+	if (StartMovingUp)
+	{
+		ALocation = InitialLocation;
+		BLocation = FVector(InitialLocation.X, InitialLocation.Y, InitialLocation.Z + 100.f);
+	}
+
+	else
+	{
+		BLocation = InitialLocation;
+		ALocation = FVector(InitialLocation.X, InitialLocation.Y, InitialLocation.Z - 100.f);
+	}
 	
 }
 
