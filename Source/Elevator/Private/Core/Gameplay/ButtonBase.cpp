@@ -5,6 +5,7 @@
 #include "Components/BoxComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Core/Interfaces/ProjectileInterface.h"
+#include "Core/Gameplay/ElevatorBase.h"
 
 
 // Sets default values
@@ -30,6 +31,10 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 	//Effectue la logique lorsqu'un élément chevauche mon trigger
 	if (!IsButtonActivated && OtherActor->Implements<UProjectileInterface>())
 	{
+		for (const auto& Elevator : ElevatorReferences)
+		{
+			Elevator->BP_LiftMove();
+		}
 		OnProjeticleStartTriggering();
 
 		//3. On envoie un événement au blueprint (pour la timeline)

@@ -7,6 +7,7 @@
 #include "ButtonBase.generated.h"
 
 class UBoxComponent;
+class AElevatorBase;
 
 UCLASS()
 class ELEVATOR_API AButtonBase : public AActor
@@ -23,6 +24,8 @@ public:
 		const FHitResult& SweepResult);
 
 	
+	UPROPERTY(EditInstanceOnly)
+	TArray<AElevatorBase*> ElevatorReferences;
 
 protected:
 	// Called when the game starts or when spawned
