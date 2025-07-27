@@ -42,6 +42,19 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void OnLiftTimelineUpdated(float alpha);
+
+	UFUNCTION(BlueprintCallable)
+	void OnLiftTimelineFinished();
+
+	UPROPERTY(EditInstanceOnly, Category = "Elevator Movement")
+	float XDistance;
+
+	UPROPERTY(EditInstanceOnly, Category = "Elevator Movement")
+	float YDistance;
+	
+	UPROPERTY(EditInstanceOnly, Category = "Elevator Movement")
+	float ZDistance;
+
 	
 
 public:	

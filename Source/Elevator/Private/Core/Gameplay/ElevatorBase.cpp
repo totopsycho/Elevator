@@ -26,7 +26,7 @@ void AElevatorBase::BeginPlay()
 	InitialLocation = ElevatorMesh->GetRelativeLocation();
 
 	ALocation = InitialLocation;
-	BLocation = FVector(InitialLocation.X, InitialLocation.Y, InitialLocation.Z + 500.f);
+	BLocation = FVector(InitialLocation.X + XDistance, InitialLocation.Y + YDistance, InitialLocation.Z + ZDistance);
 
 	
 }
@@ -43,6 +43,17 @@ void AElevatorBase::OnLiftTimelineUpdated(float alpha)
 		FVector LerpBA = UKismetMathLibrary::VLerp(BLocation, ALocation, alpha);
 		ElevatorMesh->SetRelativeLocation(LerpBA);
 	}
+}
+
+void AElevatorBase::OnLiftTimelineFinished()
+{
+	if (Direction)
+	{
+		Direction = false;
+		return;
+	}
+
+	Direction = true;
 }
 
 // Called every frame
