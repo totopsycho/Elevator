@@ -37,7 +37,6 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 			
 			Elevator->BP_LiftMove();
 			
-			
 		}
 		OnProjeticleStartTriggering();
 

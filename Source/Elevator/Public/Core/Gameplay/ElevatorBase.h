@@ -28,15 +28,21 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* ElevatorMesh;
 
-	UPROPERTY(EditInstanceOnly,BlueprintReadOnly)
-	bool StartMovingUp;
+	UPROPERTY()
+	bool Direction = true;
 
 	UPROPERTY()
 	FVector InitialLocation;
-	UPROPERTY(BlueprintReadOnly)
+
+	UPROPERTY()
 	FVector ALocation;
-	UPROPERTY(BlueprintReadOnly)
+
+	UPROPERTY()
 	FVector BLocation;
+
+	UFUNCTION(BlueprintCallable)
+	void OnLiftTimelineUpdated(float alpha);
+	
 
 public:	
 	// Called every frame

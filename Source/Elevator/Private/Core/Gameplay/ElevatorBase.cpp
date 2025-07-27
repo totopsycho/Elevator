@@ -2,6 +2,7 @@
 
 
 #include "Core/Gameplay/ElevatorBase.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AElevatorBase::AElevatorBase()
@@ -23,18 +24,25 @@ void AElevatorBase::BeginPlay()
 	Super::BeginPlay();
 
 	InitialLocation = ElevatorMesh->GetRelativeLocation();
-	if (StartMovingUp)
-	{
-		ALocation = InitialLocation;
-		BLocation = FVector(InitialLocation.X, InitialLocation.Y, InitialLocation.Z + 100.f);
-	}
 
+	ALocation = InitialLocation;
+	BLocation = FVector(InitialLocation.X, InitialLocation.Y, InitialLocation.Z + 500.f);
+
+	
+}
+
+void AElevatorBase::OnLiftTimelineUpdated(float alpha)
+{
+	if (Direction)
+	{
+		FVector LerpAB = UKismetMathLibrary::VLerp(ALocation, BLocation, alpha);
+		ElevatorMesh->SetRelativeLocation(LerpAB);
+	}
 	else
 	{
-		BLocation = InitialLocation;
-		ALocation = FVector(InitialLocation.X, InitialLocation.Y, InitialLocation.Z - 100.f);
+		FVector LerpBA = UKismetMathLibrary::VLerp(BLocation, ALocation, alpha);
+		ElevatorMesh->SetRelativeLocation(LerpBA);
 	}
-	
 }
 
 // Called every frame
