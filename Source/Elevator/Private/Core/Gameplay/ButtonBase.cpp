@@ -33,7 +33,11 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 	{
 		for (const auto& Elevator : ElevatorReferences)
 		{
+			checkf(Elevator, TEXT("Verifier que ElevatorReferences soit bien remplie dans %s"), *GetActorNameOrLabel());
+			
 			Elevator->BP_LiftMove();
+			
+			
 		}
 		OnProjeticleStartTriggering();
 
