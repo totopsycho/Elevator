@@ -55,6 +55,12 @@ protected:
 	UPROPERTY(EditInstanceOnly, Category = "Elevator Movement")
 	float ZDistance;
 
+	UPROPERTY(EditInstanceOnly, Category = "Elevator Movement")
+	float ElevatorSpeed;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Elevator Movement")
+	float ElevatorPlayRate;
+
 	
 
 public:	

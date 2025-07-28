@@ -23,6 +23,23 @@ void AElevatorBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Stocker les distances dans un tableau
+	TArray<float> Distances;
+	Distances.Add(UKismetMathLibrary::Abs(XDistance));
+	Distances.Add(UKismetMathLibrary::Abs(YDistance));
+	Distances.Add(UKismetMathLibrary::Abs(ZDistance));
+	
+	//Trouver la valeur maximum dans le tableau
+
+	int32 Index = 0;
+	float MaxValue = 0.f;
+	UKismetMathLibrary::MaxOfFloatArray(Distances, Index, MaxValue);
+	UE_LOG(LogTemp, Error, TEXT("Max Value is %f"), MaxValue)
+
+	// Déterminer le playrate de l'elevator
+
+	ElevatorPlayRate = ElevatorSpeed / MaxValue;
+
 	InitialLocation = ElevatorMesh->GetRelativeLocation();
 
 	ALocation = InitialLocation;
