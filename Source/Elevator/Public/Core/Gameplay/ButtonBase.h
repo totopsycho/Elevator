@@ -62,7 +62,8 @@ protected:
 	UPROPERTY()
 	bool IsButtonActivated = false;
 
-
+	UPROPERTY()
+	float ButtonPlayRate;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

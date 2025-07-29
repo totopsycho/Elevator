@@ -63,6 +63,16 @@ void AButtonBase::OnProjeticleStartTriggering()
 void AButtonBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Challenge : Récupérer tous les play rate des elevators liés au button et les afficher 
+	//dans le output log de unreal
+
+	for (const auto& Elevator : ElevatorReferences)
+	{
+		float ElevatorPlayRate = Elevator->GetElevatorPlayRate();
+		UE_LOG(LogTemp, Warning, TEXT("ElevatorPlayRate sont %f"), ElevatorPlayRate)
+	}
+
 	
 }
 

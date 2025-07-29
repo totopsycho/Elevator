@@ -18,6 +18,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_LiftMove();
 
+	UFUNCTION()
+	float GetElevatorPlayRate();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

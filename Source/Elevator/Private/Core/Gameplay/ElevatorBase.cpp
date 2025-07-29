@@ -18,17 +18,14 @@ AElevatorBase::AElevatorBase()
 
 }
 
-// Called when the game starts or when spawned
-void AElevatorBase::BeginPlay()
+float AElevatorBase::GetElevatorPlayRate()
 {
-	Super::BeginPlay();
-
 	//Stocker les distances dans un tableau
 	TArray<float> Distances;
 	Distances.Add(UKismetMathLibrary::Abs(XDistance));
 	Distances.Add(UKismetMathLibrary::Abs(YDistance));
 	Distances.Add(UKismetMathLibrary::Abs(ZDistance));
-	
+
 	//Trouver la valeur maximum dans le tableau
 
 	int32 Index = 0;
@@ -38,7 +35,17 @@ void AElevatorBase::BeginPlay()
 
 	// Déterminer le playrate de l'elevator
 
-	ElevatorPlayRate = ElevatorSpeed / MaxValue;
+	return	ElevatorPlayRate = ElevatorSpeed / MaxValue;
+	
+}
+
+// Called when the game starts or when spawned
+void AElevatorBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GetElevatorPlayRate();
+	
 
 	InitialLocation = ElevatorMesh->GetRelativeLocation();
 
