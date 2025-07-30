@@ -62,7 +62,7 @@ protected:
 	UPROPERTY()
 	bool IsButtonActivated = false;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	float ButtonPlayRate;
 public:	
 	// Called every frame

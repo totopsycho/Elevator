@@ -67,13 +67,22 @@ void AButtonBase::BeginPlay()
 	// Challenge : Récupérer tous les play rate des elevators liés au button et les afficher 
 	//dans le output log de unreal
 
+	float CurrentElevatorPlayRate = 100000.f;
 	for (const auto& Elevator : ElevatorReferences)
 	{
+		//Elevator 1 = 1.f, Elevator 2 = 0.1f ,Elevator 0.5f;
 		float ElevatorPlayRate = Elevator->GetElevatorPlayRate();
-		UE_LOG(LogTemp, Warning, TEXT("ElevatorPlayRate sont %f"), ElevatorPlayRate)
+
+		if (ElevatorPlayRate < CurrentElevatorPlayRate)
+		{
+			CurrentElevatorPlayRate = ElevatorPlayRate;
+		}
+		
 	}
 
-	
+	ButtonPlayRate = CurrentElevatorPlayRate;
+	UE_LOG(LogTemp, Warning, TEXT("ButtonPlayRate is %f"), ButtonPlayRate)
+
 }
 
 void AButtonBase::OnTimelineUpdateButton(float alpha)
