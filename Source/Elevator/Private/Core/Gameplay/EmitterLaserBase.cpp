@@ -22,6 +22,15 @@ AEmitterLaserBase::AEmitterLaserBase()
 void AEmitterLaserBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AEmitterLaserBase::SphereTrace, 0.1f, true);
+	
+}
+
+void AEmitterLaserBase::SphereTrace()
+{
+	UE_LOG(LogTemp, Log, TEXT("Timer"))
 	
 }
 

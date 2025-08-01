@@ -28,6 +28,10 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* ViewCylinder;
 
+	UFUNCTION()
+	void SphereTrace();
+
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
