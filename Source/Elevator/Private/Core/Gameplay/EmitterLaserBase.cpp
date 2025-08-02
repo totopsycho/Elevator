@@ -18,6 +18,15 @@ AEmitterLaserBase::AEmitterLaserBase()
 	ViewCylinder->SetupAttachment(EmitterMesh);
 }
 
+void AEmitterLaserBase::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+
+	EmitterMesh->SetWorldScale3D(FVector(EmitterScale, EmitterScale, 1.f));
+	ViewCylinder->SetWorldScale3D(FVector(4.f, EmitterScale, EmitterScale));
+
+}
+
 // Called when the game starts or when spawned
 void AEmitterLaserBase::BeginPlay()
 {

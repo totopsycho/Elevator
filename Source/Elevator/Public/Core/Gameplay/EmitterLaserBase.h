@@ -15,6 +15,8 @@ public:
 	// Sets default values for this actor's properties
 	AEmitterLaserBase();
 
+	virtual void OnConstruction(const FTransform& Transform) override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -31,10 +33,10 @@ protected:
 	UFUNCTION()
 	void SphereTrace();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditInstanceOnly, Category = "Laser Params")
 	float TraceMaxDistance = 1000.f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditInstanceOnly, Category = "Laser Params", meta = (ClampMin ="1.0", ClampMax = "4.0"))
 	float EmitterScale = 1.f;
 
 public:	
