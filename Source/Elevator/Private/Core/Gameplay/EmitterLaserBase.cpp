@@ -26,14 +26,22 @@ void AEmitterLaserBase::OnConstruction(const FTransform& Transform)
 	EmitterMesh->SetWorldScale3D(FVector(EmitterScale, EmitterScale, 1.f));
 	ViewCylinder->SetWorldScale3D(FVector(4.f, EmitterScale, EmitterScale));
 
+	UMaterialInstanceDynamic* EmitterMatInst = EmitterMesh->CreateDynamicMaterialInstance(0);
+	UMaterialInstanceDynamic* ViewCylinderMatInst = ViewCylinder->CreateDynamicMaterialInstance(0);
 	if (LaserType == ELaserType::TeleportLaser)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("TeleportLaser"))
+		
+		EmitterMatInst->SetScalarParameterValue(FName("SwitchColor"), 0.f);
+
+		ViewCylinderMatInst->SetScalarParameterValue(FName("CylinderState"), 0.f);
 	}
 
 	if (LaserType == ELaserType::DeadLaser)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("DeadLaser"))
+		
+		EmitterMatInst->SetScalarParameterValue(FName("SwitchColor"), 1.f);
+
+		ViewCylinderMatInst->SetScalarParameterValue(FName("CylinderState"), 1.f);
 	}
 
 	
