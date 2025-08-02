@@ -31,7 +31,10 @@ void AEmitterLaserBase::BeginPlay()
 void AEmitterLaserBase::SphereTrace()
 {
 	UE_LOG(LogTemp, Log, TEXT("Timer"))
-	
+	FVector Start = EmitterMesh->GetComponentLocation();
+	FVector UpVectorMultiplied = EmitterMesh->GetUpVector() * TraceMaxDistance;
+	FVector End = Start + UpVectorMultiplied;
+	float Radius = EmitterScale * 50.f;
 }
 
 // Called every frame

@@ -31,7 +31,12 @@ protected:
 	UFUNCTION()
 	void SphereTrace();
 
-	
+	UPROPERTY(EditAnywhere)
+	float TraceMaxDistance = 1000.f;
+
+	UPROPERTY(EditAnywhere)
+	float EmitterScale = 1.f;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
