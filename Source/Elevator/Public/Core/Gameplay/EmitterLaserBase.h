@@ -6,6 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "EmitterLaserBase.generated.h"
 
+UENUM(BlueprintType)
+enum class ELaserType : uint8
+{
+	TeleportLaser,
+	DeadLaser
+};
+
 UCLASS()
 class ELEVATOR_API AEmitterLaserBase : public AActor
 {
@@ -38,6 +45,10 @@ protected:
 
 	UPROPERTY(EditInstanceOnly, Category = "Laser Params", meta = (ClampMin ="1.0", ClampMax = "4.0"))
 	float EmitterScale = 1.f;
+
+	UPROPERTY(EditInstanceOnly, Category = "Laser Params")
+	ELaserType LaserType;
+
 
 public:	
 	// Called every frame

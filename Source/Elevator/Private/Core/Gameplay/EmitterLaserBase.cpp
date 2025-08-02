@@ -26,6 +26,18 @@ void AEmitterLaserBase::OnConstruction(const FTransform& Transform)
 	EmitterMesh->SetWorldScale3D(FVector(EmitterScale, EmitterScale, 1.f));
 	ViewCylinder->SetWorldScale3D(FVector(4.f, EmitterScale, EmitterScale));
 
+	if (LaserType == ELaserType::TeleportLaser)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("TeleportLaser"))
+	}
+
+	if (LaserType == ELaserType::DeadLaser)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("DeadLaser"))
+	}
+
+	
+
 }
 
 // Called when the game starts or when spawned
@@ -54,7 +66,7 @@ void AEmitterLaserBase::SphereTrace()
 	if (bIsHit)
 	{
 		AActor* HitActor = OutHit.GetActor();
-		UE_LOG(LogTemp, Warning, TEXT("Actor Name is %s"), *HitActor->GetName())
+		
 	}
 
 
