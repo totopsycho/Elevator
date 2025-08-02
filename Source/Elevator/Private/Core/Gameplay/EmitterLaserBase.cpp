@@ -3,6 +3,8 @@
 
 #include "Core/Gameplay/EmitterLaserBase.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include <ShooterCharacter.h>
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AEmitterLaserBase::AEmitterLaserBase()
@@ -74,6 +76,20 @@ void AEmitterLaserBase::SphereTrace()
 	if (bIsHit)
 	{
 		AActor* HitActor = OutHit.GetActor();
+		FVector ImpactPoint = OutHit.ImpactPoint;
+		FVector TraceStart = OutHit.TraceStart;
+
+		AShooterCharacter* Player = Cast<AShooterCharacter>(HitActor);
+		if (HitActor == Player)
+		{
+			return;
+		}
+
+		float VectorLength = UKismetMathLibrary::VSize(TraceStart - ImpactPoint) * 0.002f;
+
+		FVector ViewCylinderScale = ViewCylinder->GetComponentScale();
+
+		ViewCylinder->SetWorldScale3D(FVector(VectorLength, ViewCylinderScale.Y, ViewCylinderScale.Z));
 		
 	}
 
