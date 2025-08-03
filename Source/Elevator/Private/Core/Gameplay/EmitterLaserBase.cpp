@@ -79,9 +79,9 @@ void AEmitterLaserBase::SphereTrace()
 		FVector ImpactPoint = OutHit.ImpactPoint;
 		FVector TraceStart = OutHit.TraceStart;
 
-		AShooterCharacter* Player = Cast<AShooterCharacter>(HitActor);
-		if (HitActor == Player)
+		if (HitActor->Implements<ULaserInterface>())
 		{
+			ILaserInterface::Execute_OnActorEnterLaser(HitActor);
 			return;
 		}
 

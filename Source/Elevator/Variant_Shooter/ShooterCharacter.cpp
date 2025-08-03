@@ -10,6 +10,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/World.h"
 #include "Camera/CameraComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 AShooterCharacter::AShooterCharacter()
 {
@@ -231,4 +232,9 @@ AShooterWeapon* AShooterCharacter::FindWeaponOfType(TSubclassOf<AShooterWeapon> 
 	// weapon not found
 	return nullptr;
 
+}
+
+void AShooterCharacter::OnActorEnterLaser_Implementation()
+{
+	UKismetSystemLibrary::ExecuteConsoleCommand(this, TEXT("RestartLevel"));
 }

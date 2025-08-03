@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "ElevatorCharacter.h"
 #include "ShooterWeaponHolder.h"
+#include "Core/Interfaces/LaserInterface.h"
 #include "ShooterCharacter.generated.h"
 
 class AShooterWeapon;
@@ -20,42 +21,42 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FBulletCountUpdatedDelegate, int32,
  *  Manages health and death
  */
 UCLASS(abstract)
-class ELEVATOR_API AShooterCharacter : public AElevatorCharacter, public IShooterWeaponHolder
+class ELEVATOR_API AShooterCharacter : public AElevatorCharacter, public IShooterWeaponHolder, public ILaserInterface
 {
 	GENERATED_BODY()
-	
+
 	/** AI Noise emitter component */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UPawnNoiseEmitterComponent* PawnNoiseEmitter;
 
 protected:
 
 	/** Fire weapon input action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category ="Input")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* FireAction;
 
 	/** Switch weapon input action */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category ="Input")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* SwitchWeaponAction;
 
 	/** Name of the first person mesh weapon socket */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category ="Weapons")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapons")
 	FName FirstPersonWeaponSocket = FName("HandGrip_R");
 
 	/** Name of the third person mesh weapon socket */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category ="Weapons")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapons")
 	FName ThirdPersonWeaponSocket = FName("HandGrip_R");
 
 	/** Max distance to use for aim traces */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category ="Aim")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Aim")
 	float MaxAimDistance = 10000.0f;
 
 	/** Current HP remaining to this character */
-	UPROPERTY(EditAnywhere, Category="Health")
+	UPROPERTY(EditAnywhere, Category = "Health")
 	float CurrentHP = 500.0f;
 
 	/** Team ID for this character*/
-	UPROPERTY(EditAnywhere, Category="Team")
+	UPROPERTY(EditAnywhere, Category = "Team")
 	uint8 TeamByte = 0;
 
 	/** List of weapons picked up by the character */
@@ -87,15 +88,15 @@ public:
 public:
 
 	/** Handles start firing input */
-	UFUNCTION(BlueprintCallable, Category="Input")
+	UFUNCTION(BlueprintCallable, Category = "Input")
 	void DoStartFiring();
 
 	/** Handles stop firing input */
-	UFUNCTION(BlueprintCallable, Category="Input")
+	UFUNCTION(BlueprintCallable, Category = "Input")
 	void DoStopFiring();
 
 	/** Handles switch weapon input */
-	UFUNCTION(BlueprintCallable, Category="Input")
+	UFUNCTION(BlueprintCallable, Category = "Input")
 	void DoSwitchWeapon();
 
 public:
@@ -135,4 +136,6 @@ protected:
 
 	/** Returns true if the character already owns a weapon of the given class */
 	AShooterWeapon* FindWeaponOfType(TSubclassOf<AShooterWeapon> WeaponClass) const;
+
+	virtual void OnActorEnterLaser_Implementation();
 };
