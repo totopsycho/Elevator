@@ -32,7 +32,7 @@ void AEmitterLaserBase::OnConstruction(const FTransform& Transform)
 	UMaterialInstanceDynamic* ViewCylinderMatInst = ViewCylinder->CreateDynamicMaterialInstance(0);
 	if (LaserType == ELaserType::TeleportLaser)
 	{
-		
+
 		EmitterMatInst->SetScalarParameterValue(FName("SwitchColor"), 0.f);
 
 		ViewCylinderMatInst->SetScalarParameterValue(FName("CylinderState"), 0.f);
@@ -40,13 +40,11 @@ void AEmitterLaserBase::OnConstruction(const FTransform& Transform)
 
 	if (LaserType == ELaserType::DeadLaser)
 	{
-		
+
 		EmitterMatInst->SetScalarParameterValue(FName("SwitchColor"), 1.f);
 
 		ViewCylinderMatInst->SetScalarParameterValue(FName("CylinderState"), 1.f);
 	}
-
-	
 
 }
 
@@ -70,7 +68,7 @@ void AEmitterLaserBase::SphereTrace()
 	FHitResult OutHit;
 	
 	bool bIsHit =UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, Radius, UEngineTypes::ConvertToTraceType(ECC_Visibility), false,
-		ActorsToIgnore, EDrawDebugTrace::ForOneFrame,OutHit, true );
+		ActorsToIgnore, EDrawDebugTrace::None,OutHit, true );
 
 	if (bIsHit)
 	{
@@ -105,6 +103,7 @@ void AEmitterLaserBase::SphereTrace()
 
 	ViewCylinder->SetWorldScale3D(FVector(4.f, EmitterScale, EmitterScale));
 
-
 }
+
+
 

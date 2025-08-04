@@ -19,7 +19,7 @@ class ELEVATOR_API AEmitterLaserBase : public AActor
 	GENERATED_BODY()
 	
 public:	
-
+	
 	AEmitterLaserBase();
 
 	virtual void OnConstruction(const FTransform& Transform) override;
