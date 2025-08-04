@@ -19,13 +19,13 @@ class ELEVATOR_API AEmitterLaserBase : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+
 	AEmitterLaserBase();
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 
 protected:
-	// Called when the game starts or when spawned
+	
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
@@ -51,9 +51,5 @@ protected:
 
 	UPROPERTY(EditInstanceOnly, Category = "Laser Params", meta =(MakeEditWidget = true))
 	FVector TeleportLocation;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 };

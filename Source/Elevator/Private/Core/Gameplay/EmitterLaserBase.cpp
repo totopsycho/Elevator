@@ -6,11 +6,11 @@
 #include <ShooterCharacter.h>
 #include "Kismet/KismetMathLibrary.h"
 
-// Sets default values
+
 AEmitterLaserBase::AEmitterLaserBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+ 	
+	PrimaryActorTick.bCanEverTick = false;
 
 	RootComponent = SceneComp = CreateDefaultSubobject<USceneComponent>("Scene Comp");
 
@@ -50,7 +50,6 @@ void AEmitterLaserBase::OnConstruction(const FTransform& Transform)
 
 }
 
-// Called when the game starts or when spawned
 void AEmitterLaserBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -98,20 +97,14 @@ void AEmitterLaserBase::SphereTrace()
 
 		float VectorLength = UKismetMathLibrary::VSize(TraceStart - ImpactPoint) * 0.002f;
 
-		FVector ViewCylinderScale = ViewCylinder->GetComponentScale();
+		ViewCylinder->SetWorldScale3D(FVector(VectorLength, EmitterScale, EmitterScale));
 
-		ViewCylinder->SetWorldScale3D(FVector(VectorLength, ViewCylinderScale.Y, ViewCylinderScale.Z));
+		return;
 		
 	}
 
+	ViewCylinder->SetWorldScale3D(FVector(4.f, EmitterScale, EmitterScale));
 
-
-}
-
-// Called every frame
-void AEmitterLaserBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
 }
 
