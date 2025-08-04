@@ -49,6 +49,8 @@ protected:
 	UPROPERTY(EditInstanceOnly, Category = "Laser Params")
 	ELaserType LaserType;
 
+	UPROPERTY(EditInstanceOnly, Category = "Laser Params", meta =(MakeEditWidget = true))
+	FVector TeleportLocation;
 
 public:	
 	// Called every frame

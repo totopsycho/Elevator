@@ -81,8 +81,19 @@ void AEmitterLaserBase::SphereTrace()
 
 		if (HitActor->Implements<ULaserInterface>())
 		{
-			ILaserInterface::Execute_OnActorEnterLaser(HitActor);
-			return;
+			if (LaserType == ELaserType::DeadLaser)
+			{
+				ILaserInterface::Execute_OnActorEnterLaser(HitActor);
+				return;
+			}
+
+			if (LaserType == ELaserType::TeleportLaser)
+			{
+				FVector WorldTeleportLocation = UKismetMathLibrary::TransformLocation(GetActorTransform(), TeleportLocation);
+				HitActor->SetActorLocation(WorldTeleportLocation);
+				return;
+			}
+			
 		}
 
 		float VectorLength = UKismetMathLibrary::VSize(TraceStart - ImpactPoint) * 0.002f;
