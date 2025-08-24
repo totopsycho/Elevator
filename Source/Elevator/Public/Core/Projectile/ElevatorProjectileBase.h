@@ -20,6 +20,9 @@ public:
 	// Sets default values for this actor's properties
 	AElevatorProjectileBase();
 
+	UFUNCTION()
+	void OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit );
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,6 +35,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UProjectileMovementComponent* ProjectileMovementComp;
+
+	UPROPERTY(EditDefaultsOnly)
+	float ImpulseFactor = 1.f;
 
 public:	
 	// Called every frame

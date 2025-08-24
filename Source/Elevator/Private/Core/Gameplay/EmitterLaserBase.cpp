@@ -68,13 +68,15 @@ void AEmitterLaserBase::SphereTrace()
 	FHitResult OutHit;
 	
 	bool bIsHit =UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, Radius, UEngineTypes::ConvertToTraceType(ECC_Visibility), false,
-		ActorsToIgnore, EDrawDebugTrace::None,OutHit, true );
+		ActorsToIgnore, EDrawDebugTrace::ForOneFrame,OutHit, true );
 
-	if (bIsHit)
+	
+	if (bIsHit )
 	{
 		AActor* HitActor = OutHit.GetActor();
 		FVector ImpactPoint = OutHit.ImpactPoint;
 		FVector TraceStart = OutHit.TraceStart;
+		UPrimitiveComponent* HitComponent = OutHit.GetComponent();
 
 		if (HitActor->Implements<ULaserInterface>())
 		{
@@ -87,7 +89,17 @@ void AEmitterLaserBase::SphereTrace()
 			if (LaserType == ELaserType::TeleportLaser)
 			{
 				FVector WorldTeleportLocation = UKismetMathLibrary::TransformLocation(GetActorTransform(), TeleportLocation);
-				HitActor->SetActorLocation(WorldTeleportLocation);
+				HitComponent->SetConstraintMode(EDOFMode::None);
+				HitActor->SetActorLocation(WorldTeleportLocation, false, nullptr, ETeleportType::TeleportPhysics);
+				if (HitActor->GetVelocity().X > 10.f || HitActor->GetVelocity().X < -10.f)
+				{
+					HitComponent->SetConstraintMode(EDOFMode::XZPlane);
+				}
+				else if (HitActor->GetVelocity().Y > 10.f || HitActor->GetVelocity().Y < -10.f)
+				{
+					HitComponent->SetConstraintMode(EDOFMode::YZPlane);
+				}
+				
 				return;
 			}
 			

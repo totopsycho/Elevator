@@ -28,7 +28,7 @@ protected:
 	
 	virtual void BeginPlay() override;
 
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly)
 	USceneComponent* SceneComp;
 
 	UPROPERTY(EditAnywhere)
@@ -49,7 +49,9 @@ protected:
 	UPROPERTY(EditInstanceOnly, Category = "Laser Params")
 	ELaserType LaserType;
 
-	UPROPERTY(EditInstanceOnly, Category = "Laser Params", meta =(MakeEditWidget = true))
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Laser Params", meta =(MakeEditWidget = true))
 	FVector TeleportLocation;
+
+
 
 };
