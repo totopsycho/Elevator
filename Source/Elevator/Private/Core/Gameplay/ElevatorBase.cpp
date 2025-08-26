@@ -19,6 +19,14 @@ AElevatorBase::AElevatorBase()
 
 }
 
+void AElevatorBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	// Update la timeline à chaque frame
+	MyTimeline.TickTimeline(DeltaTime);
+}
+
 float AElevatorBase::GetElevatorPlayRate()
 {
 	//Stocker les distances dans un tableau
@@ -44,6 +52,22 @@ void AElevatorBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (FloatCurve)
+	{
+		// Bind des fonctions
+		FOnTimelineFloat UpdateFunction{};
+		UpdateFunction.BindUFunction(this, FName("TimelineUpdate"));
+
+		FOnTimelineEvent FinishedFunction{};
+		FinishedFunction.BindUFunction(this, FName("TimelineFinished"));
+
+		// Setup de la timeline
+		MyTimeline.AddInterpFloat(FloatCurve, UpdateFunction);
+		MyTimeline.SetTimelineFinishedFunc(FinishedFunction);
+
+		MyTimeline.SetLooping(false);   // Pas en boucle
+	}
+
 	GetElevatorPlayRate();
 	
 
@@ -57,21 +81,31 @@ void AElevatorBase::BeginPlay()
 
 void AElevatorBase::OnLiftTimelineUpdated(float alpha)
 {
-	if (Direction)
-	{
-		FVector LerpAB = UKismetMathLibrary::VLerp(ALocation, BLocation, alpha);
-		ElevatorMesh->SetRelativeLocation(LerpAB);
-	}
-	else
-	{
-		FVector LerpBA = UKismetMathLibrary::VLerp(BLocation, ALocation, alpha);
-		ElevatorMesh->SetRelativeLocation(LerpBA);
-	}
+
 	
 	
 }
 
 void AElevatorBase::OnLiftTimelineFinished()
+{
+	
+}
+
+void AElevatorBase::TimelineUpdate(float Value)
+{
+	if (Direction)
+	{
+		FVector LerpAB = UKismetMathLibrary::VLerp(ALocation, BLocation, Value);
+		ElevatorMesh->SetRelativeLocation(LerpAB);
+	}
+	else
+	{
+		FVector LerpBA = UKismetMathLibrary::VLerp(BLocation, ALocation, Value);
+		ElevatorMesh->SetRelativeLocation(LerpBA);
+	}
+}
+
+void AElevatorBase::TimelineFinished()
 {
 	if (Direction)
 	{

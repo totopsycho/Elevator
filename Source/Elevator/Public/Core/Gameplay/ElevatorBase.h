@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/TimelineComponent.h"
 #include "ElevatorBase.generated.h"
+
 
 UCLASS()
 class ELEVATOR_API AElevatorBase : public AActor
@@ -14,6 +16,8 @@ class ELEVATOR_API AElevatorBase : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AElevatorBase();
+
+	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_LiftMove();
@@ -26,6 +30,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* ElevatorMesh;
+
+	/** Timeline component */
+	FTimeline MyTimeline;
 
 protected:
 	// Called when the game starts or when spawned
@@ -66,6 +73,22 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Elevator Movement")
 	float ElevatorPlayRate;
+
+	//Timeline Begin
+	
+	
+
+	/** Curve asset pour piloter la timeline (à assigner dans l’éditeur ou par code) */
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* FloatCurve;
+
+	/** Callback Update */
+	UFUNCTION()
+	void TimelineUpdate(float Value);
+
+	/** Callback Finished */
+	UFUNCTION()
+	void TimelineFinished();
 
 
 	
