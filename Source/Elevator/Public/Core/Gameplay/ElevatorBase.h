@@ -21,15 +21,18 @@ public:
 	UFUNCTION()
 	float GetElevatorPlayRate();
 
+	UFUNCTION()
+	FHitResult BoxTraceForPhysicsCube();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UStaticMeshComponent* ElevatorMesh;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
 	USceneComponent* SceneComp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* ElevatorMesh;
 
 	UPROPERTY()
 	bool Direction = true;
@@ -64,10 +67,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Elevator Movement")
 	float ElevatorPlayRate;
 
-	
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	
 
 };

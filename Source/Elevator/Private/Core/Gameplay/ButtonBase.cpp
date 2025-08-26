@@ -28,19 +28,31 @@ AButtonBase::AButtonBase()
 void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	/*AElevatorProjectileBase* ProjectileReference = Cast<AElevatorProjectileBase>(OtherActor);*/
-	//Effectue la logique lorsqu'un élément chevauche mon trigger
+	//Effectue la logique lorsqu'un ï¿½lï¿½ment chevauche mon trigger
 	if (!IsButtonActivated && OtherActor->Implements<UProjectileInterface>())
 	{
 		for (const auto& Elevator : ElevatorReferences)
 		{
 			checkf(Elevator, TEXT("Verifier que ElevatorReferences soit bien remplie dans %s"), *GetActorNameOrLabel());
-			
+
+			FHitResult Hit = Elevator->BoxTraceForPhysicsCube();
+			if (Hit.bBlockingHit)
+			{
+				AActor* HitActor = Hit.GetActor();
+				UPrimitiveComponent* HitComp = Hit.GetComponent();
+				if (Hit.GetComponent()->IsSimulatingPhysics())
+				{
+					HitComp->SetSimulatePhysics(false);
+					HitComp->SetConstraintMode(EDOFMode::None);
+					HitActor->AttachToComponent(Elevator->ElevatorMesh, FAttachmentTransformRules::KeepWorldTransform);
+					UE_LOG(LogTemp, Warning, TEXT("We hit A physics cube"));
+				}
+			}
 			Elevator->BP_LiftMove();
-			
 		}
 		OnProjeticleStartTriggering();
 
-		//3. On envoie un événement au blueprint (pour la timeline)
+		//3. On envoie un ï¿½vï¿½nement au blueprint (pour la timeline)
 		BP_ResetButtonPosition();
 
 	}
@@ -49,10 +61,10 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 void AButtonBase::OnProjeticleStartTriggering()
 {
 	IsButtonActivated = true;
-	//1. Changer le matériel du button en rouge
+	//1. Changer le matï¿½riel du button en rouge
 	ButtonMesh->SetMaterial(0, ButtonMesh->GetMaterial(1));
 
-	//2 . Le button part vers l'arrière
+	//2 . Le button part vers l'arriï¿½re
 	InitialButtonLocation = ButtonMesh->GetRelativeLocation();
 	ButtonMesh->SetRelativeLocation(FVector(InitialButtonLocation.X, InitialButtonLocation.Y,
 		InitialButtonLocation.Z - 20.f));
@@ -64,7 +76,7 @@ void AButtonBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Challenge : Récupérer tous les play rate des elevators liés au button et les afficher 
+	// Challenge : Rï¿½cupï¿½rer tous les play rate des elevators liï¿½s au button et les afficher 
 	//dans le output log de unreal
 
 	float CurrentElevatorPlayRate = 100000.f;
@@ -87,14 +99,14 @@ void AButtonBase::BeginPlay()
 
 void AButtonBase::OnTimelineUpdateButton(float alpha)
 {
-	//4 . Le button va revenir à sa position initiale (VLerp)
+	//4 . Le button va revenir ï¿½ sa position initiale (VLerp)
 	ButtonMesh->SetRelativeLocation(UKismetMathLibrary::VLerp(BackButtonLocation, InitialButtonLocation, alpha));
 	
 }
 
 void AButtonBase::OnTimelineFinished()
 {
-	//5 . A la fin de la timeline, on revient à la couleur verte
+	//5 . A la fin de la timeline, on revient ï¿½ la couleur verte
 	ButtonMesh->SetMaterial(0, ButtonMesh->GetMaterial(2));
 	IsButtonActivated = false;
 }

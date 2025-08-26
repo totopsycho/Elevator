@@ -3,6 +3,7 @@
 
 #include "Core/Gameplay/ElevatorBase.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 AElevatorBase::AElevatorBase()
@@ -32,7 +33,7 @@ float AElevatorBase::GetElevatorPlayRate()
 	float MaxValue = 0.f;
 	UKismetMathLibrary::MaxOfFloatArray(Distances, Index, MaxValue);
 
-	// Déterminer le playrate de l'elevator
+	// Dï¿½terminer le play rate de l'elevator
 
 	return	ElevatorPlayRate = ElevatorSpeed / MaxValue;
 	
@@ -66,6 +67,8 @@ void AElevatorBase::OnLiftTimelineUpdated(float alpha)
 		FVector LerpBA = UKismetMathLibrary::VLerp(BLocation, ALocation, alpha);
 		ElevatorMesh->SetRelativeLocation(LerpBA);
 	}
+	
+	
 }
 
 void AElevatorBase::OnLiftTimelineFinished()
@@ -73,16 +76,46 @@ void AElevatorBase::OnLiftTimelineFinished()
 	if (Direction)
 	{
 		Direction = false;
-		return;
 	}
-
-	Direction = true;
+	else
+	{
+		Direction = true;
+	}
+	
+	FHitResult Hit = BoxTraceForPhysicsCube();
+	if (Hit.bBlockingHit)
+	{
+		AActor* HitActor = Hit.GetActor();
+		UPrimitiveComponent* HitComp = Hit.GetComponent();
+		if (!HitActor ->IsA(APawn::StaticClass()))
+		{
+			HitComp->SetSimulatePhysics(true);
+			HitActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		}
+	}
 }
 
-// Called every frame
-void AElevatorBase::Tick(float DeltaTime)
+FHitResult AElevatorBase::BoxTraceForPhysicsCube()
 {
-	Super::Tick(DeltaTime);
-
+	FVector Start = ElevatorMesh->GetComponentLocation();
+	FVector End = FVector(Start.X, Start.Y, Start.Z + 100.f);
+	FVector BoxExtent = FVector::ZeroVector;
+	FVector Origin = FVector::ZeroVector;
+	float SphereRadius = 0.f;
+	UKismetSystemLibrary::GetComponentBounds(ElevatorMesh, Origin, BoxExtent,SphereRadius);
+	TArray<AActor*> ActorsToIgnore;
+	FHitResult OutHit;
+	ActorsToIgnore.Add(this);
+	FVector HalfSize = BoxExtent - FVector(15.f, 15.f, 0.f);
+	
+	bool bIsHit =UKismetSystemLibrary::BoxTraceSingle(GetWorld(), Start, End, HalfSize, FRotator(0.f, 0.f, 0.f), UEngineTypes::ConvertToTraceType(ECC_Visibility), false,
+	ActorsToIgnore, EDrawDebugTrace::Persistent,OutHit, true );
+	if (!bIsHit)
+	{
+		return FHitResult();
+	}
+	return OutHit;
 }
+
+
 
