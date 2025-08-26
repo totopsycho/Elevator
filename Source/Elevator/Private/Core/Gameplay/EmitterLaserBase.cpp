@@ -78,7 +78,7 @@ void AEmitterLaserBase::SphereTrace()
 	FHitResult OutHit;
 	
 	bool bIsHit =UKismetSystemLibrary::SphereTraceSingle(GetWorld(), Start, End, Radius, UEngineTypes::ConvertToTraceType(ECC_Visibility), false,
-		ActorsToIgnore, EDrawDebugTrace::ForOneFrame,OutHit, true );
+		ActorsToIgnore, EDrawDebugTrace::None,OutHit, true );
 
 	
 	if (bIsHit )

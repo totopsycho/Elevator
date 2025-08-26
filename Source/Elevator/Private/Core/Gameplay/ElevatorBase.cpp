@@ -109,7 +109,7 @@ FHitResult AElevatorBase::BoxTraceForPhysicsCube()
 	FVector HalfSize = BoxExtent - FVector(15.f, 15.f, 0.f);
 	
 	bool bIsHit =UKismetSystemLibrary::BoxTraceSingle(GetWorld(), Start, End, HalfSize, FRotator(0.f, 0.f, 0.f), UEngineTypes::ConvertToTraceType(ECC_Visibility), false,
-	ActorsToIgnore, EDrawDebugTrace::Persistent,OutHit, true );
+	ActorsToIgnore, EDrawDebugTrace::None,OutHit, true );
 	if (!bIsHit)
 	{
 		return FHitResult();
