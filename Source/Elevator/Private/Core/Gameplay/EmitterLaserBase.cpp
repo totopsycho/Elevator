@@ -4,6 +4,8 @@
 #include "Core/Gameplay/EmitterLaserBase.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include <ShooterCharacter.h>
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraSystem.h"
 #include "Kismet/KismetMathLibrary.h"
 
 
@@ -26,7 +28,7 @@ void AEmitterLaserBase::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 
 	EmitterMesh->SetWorldScale3D(FVector(EmitterScale, EmitterScale, 1.f));
-	ViewCylinder->SetWorldScale3D(FVector(4.f, EmitterScale, EmitterScale));
+	ViewCylinder->SetWorldScale3D(FVector(EmitterHeight, EmitterScale, EmitterScale));
 
 	UMaterialInstanceDynamic* EmitterMatInst = EmitterMesh->CreateDynamicMaterialInstance(0);
 	UMaterialInstanceDynamic* ViewCylinderMatInst = ViewCylinder->CreateDynamicMaterialInstance(0);
@@ -51,6 +53,14 @@ void AEmitterLaserBase::OnConstruction(const FTransform& Transform)
 void AEmitterLaserBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (bShouldShowNiagaraTeleportLocation && AuraSystem && LaserType == ELaserType::TeleportLaser)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), AuraSystem,
+			UKismetMathLibrary::TransformLocation(GetActorTransform(), TeleportLocation),
+			FRotator(0.f, 0.f, 0.f),
+			FVector(1.f, 1.f, 1.f));
+	}
 
 	FTimerHandle TimerHandle;
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &AEmitterLaserBase::SphereTrace, 0.1f, true);
@@ -113,7 +123,7 @@ void AEmitterLaserBase::SphereTrace()
 		
 	}
 
-	ViewCylinder->SetWorldScale3D(FVector(4.f, EmitterScale, EmitterScale));
+	ViewCylinder->SetWorldScale3D(FVector(EmitterHeight, EmitterScale, EmitterScale));
 
 }
 

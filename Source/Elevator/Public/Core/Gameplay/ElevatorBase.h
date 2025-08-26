@@ -28,7 +28,7 @@ protected:
 	UPROPERTY()
 	USceneComponent* SceneComp;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* ElevatorMesh;
 
 	UPROPERTY()

@@ -5,10 +5,13 @@
 #include "CoreMinimal.h"
 #include "Core/Interfaces/LaserInterface.h"
 #include "GameFramework/Actor.h"
+#include "Core/Interfaces/ProjectileInterface.h"
 #include "PhysicsCube.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCubeDestroyedSignature);
+
 UCLASS()
-class ELEVATOR_API APhysicsCube : public AActor, public ILaserInterface
+class ELEVATOR_API APhysicsCube : public AActor, public ILaserInterface, public IProjectileInterface
 {
 	GENERATED_BODY()
 	
@@ -16,12 +19,25 @@ public:
 	// Sets default values for this actor's properties
 	APhysicsCube();
 
+	virtual void OnConstruction(const FTransform& Transform) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UMaterialInstanceDynamic* CubeMatInst;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnCubeDestroyedSignature OnCubeDestroy;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* PhysicsCubeMesh;
+
+	virtual void OnActorEnterLaser_Implementation();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void BP_OnCubeEnterRedLaser();
 
 public:	
 	// Called every frame

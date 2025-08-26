@@ -13,10 +13,18 @@ APhysicsCube::APhysicsCube()
 	PhysicsCubeMesh->SetSimulatePhysics(true);
 }
 
+void APhysicsCube::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+
+	CubeMatInst = PhysicsCubeMesh->CreateDynamicMaterialInstance(0);
+}
+
 // Called when the game starts or when spawned
 void APhysicsCube::BeginPlay()
 {
 	Super::BeginPlay();
+	PhysicsCubeMesh->SetConstraintMode(EDOFMode::XZPlane);
 	
 }
 
@@ -25,5 +33,13 @@ void APhysicsCube::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void APhysicsCube::OnActorEnterLaser_Implementation()
+{
+	PhysicsCubeMesh->SetSimulatePhysics(false);
+	PhysicsCubeMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+	BP_OnCubeEnterRedLaser();
+	OnCubeDestroy.Broadcast();
 }
 
