@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/TimelineComponent.h"
 #include "Core/Interfaces/LaserInterface.h"
 #include "GameFramework/Actor.h"
 #include "Core/Interfaces/ProjectileInterface.h"
@@ -35,9 +36,21 @@ protected:
 	UStaticMeshComponent* PhysicsCubeMesh;
 
 	virtual void OnActorEnterLaser_Implementation();
+	
+	//Timeline Begin (Timeline comp declared on public )
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void BP_OnCubeEnterRedLaser();
+	UPROPERTY()
+	FTimeline MatInstTimelineComp;
+	
+	UPROPERTY(EditAnywhere, Category = "Timeline")
+	UCurveFloat* MatInstCurve;
+
+	UFUNCTION()
+	void OnMatInsTimelineUpdated(float alpha);
+
+	UFUNCTION()
+	void OnMastIntTimelineFinished();
+	//End Timeline
 
 public:	
 	// Called every frame

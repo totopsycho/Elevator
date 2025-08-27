@@ -24,22 +24,48 @@ void APhysicsCube::OnConstruction(const FTransform& Transform)
 void APhysicsCube::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (MatInstCurve)
+	{
+		FOnTimelineFloat UpdateFunction{};
+		UpdateFunction.BindUFunction(this, FName("OnMatInsTimelineUpdated"));
+
+		FOnTimelineEvent FinishedFunction{};
+		FinishedFunction.BindUFunction(this, FName("OnMastIntTimelineFinished"));
+
+		// Setup de la timeline
+		MatInstTimelineComp.AddInterpFloat(MatInstCurve, UpdateFunction);
+		MatInstTimelineComp.SetTimelineFinishedFunc(FinishedFunction);
+
+		MatInstTimelineComp.SetLooping(false);   // Pas en boucle
+	}
 	PhysicsCubeMesh->SetConstraintMode(EDOFMode::XZPlane);
 	
+}
+
+void APhysicsCube::OnMatInsTimelineUpdated(float alpha)
+{
+
+	CubeMatInst->SetScalarParameterValue(FName("Dissolve"), alpha);
+}
+
+void APhysicsCube::OnMastIntTimelineFinished()
+{
+	Destroy();
 }
 
 // Called every frame
 void APhysicsCube::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	MatInstTimelineComp.TickTimeline(DeltaTime);
 }
 
 void APhysicsCube::OnActorEnterLaser_Implementation()
 {
 	PhysicsCubeMesh->SetSimulatePhysics(false);
 	PhysicsCubeMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
-	BP_OnCubeEnterRedLaser();
+	MatInstTimelineComp.PlayFromStart();
 	OnCubeDestroy.Broadcast();
 }
 

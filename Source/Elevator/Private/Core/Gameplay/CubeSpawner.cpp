@@ -35,7 +35,7 @@ void ACubeSpawner::Tick(float DeltaTime)
 
 void ACubeSpawner::SpawnCube()
 {
-	FVector SpawnLocation = FVector(600.f, -145.f, 856.f);
+	FVector SpawnLocation = CubeSpawnerSystem->GetComponentLocation();
 	FRotator SpawnRotation = FRotator::ZeroRotator;
 	FTransform SpawnTransform(SpawnRotation, SpawnLocation);
 	FActorSpawnParameters SpawnParams;
