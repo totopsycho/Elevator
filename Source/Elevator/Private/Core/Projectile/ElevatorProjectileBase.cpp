@@ -14,6 +14,7 @@ AElevatorProjectileBase::AElevatorProjectileBase()
 	
 	RootComponent = SphereCollision = CreateDefaultSubobject<USphereComponent>("Sphere Collision");
 	SphereCollision->SetSphereRadius(20.f);
+	SphereCollision->OnComponentHit.AddDynamic(this, &ThisClass::OnProjectileHit);
 
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(" Projectile Mesh");
 	ProjectileMesh->SetupAttachment(SphereCollision);
@@ -26,6 +27,14 @@ AElevatorProjectileBase::AElevatorProjectileBase()
 	
 
 
+}
+
+void AElevatorProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherComp->IsSimulatingPhysics())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit Physic Actor"));
+	}
 }
 
 // Called when the game starts or when spawned
