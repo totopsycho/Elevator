@@ -14,7 +14,6 @@ class ELEVATOR_API AElevatorBase : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AElevatorBase();
 
 	virtual void Tick(float DeltaTime) override;
@@ -30,9 +29,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* ElevatorMesh;
-
-	/** Timeline component */
-	FTimeline MyTimeline;
+	
+	UPROPERTY()
+	FTimeline ElevatorTimeline;
 
 protected:
 	// Called when the game starts or when spawned
@@ -41,6 +40,7 @@ protected:
 	UPROPERTY()
 	USceneComponent* SceneComp;
 
+	//Begin Elevator Movement
 	UPROPERTY()
 	bool Direction = true;
 
@@ -52,13 +52,7 @@ protected:
 
 	UPROPERTY()
 	FVector BLocation;
-
-	UFUNCTION(BlueprintCallable)
-	void OnLiftTimelineUpdated(float alpha);
-
-	UFUNCTION(BlueprintCallable)
-	void OnLiftTimelineFinished();
-
+	
 	UPROPERTY(EditInstanceOnly, Category = "Elevator Movement")
 	float XDistance;
 
@@ -74,21 +68,19 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Elevator Movement")
 	float ElevatorPlayRate;
 
-	//Timeline Begin
+	// End Elevator movement
 	
-	
-
-	/** Curve asset pour piloter la timeline (à assigner dans l’éditeur ou par code) */
+	//Timeline Begin (Timeline comp declared on public )
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* FloatCurve;
 
-	/** Callback Update */
 	UFUNCTION()
-	void TimelineUpdate(float Value);
+	void OnLiftTimelineUpdated(float alpha);
 
-	/** Callback Finished */
 	UFUNCTION()
-	void TimelineFinished();
+	void OnLiftTimelineFinished();
+	//End Timeline
+	
 
 
 	

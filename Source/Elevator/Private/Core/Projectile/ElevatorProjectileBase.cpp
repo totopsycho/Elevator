@@ -46,6 +46,7 @@ void AElevatorProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent,
 		OtherComp->SetConstraintMode(EDOFMode::YZPlane);
 		OtherComp->AddImpulse(FVector(0.f, FMath::Sign(GetVelocity().Y)* ImpulseFactor, 0.f), NAME_None, true);
 	}
+	Destroy();
 }
 
 // Called when the game starts or when spawned

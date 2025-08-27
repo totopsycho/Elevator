@@ -48,8 +48,8 @@ void AButtonBase::OnComponentOverlapTrigger(UPrimitiveComponent* OverlappedCompo
 					UE_LOG(LogTemp, Warning, TEXT("We hit A physics cube"));
 				}
 			}
-			Elevator->MyTimeline.SetPlayRate(Elevator->GetElevatorPlayRate());
-			Elevator->MyTimeline.PlayFromStart();
+			Elevator->ElevatorTimeline.SetPlayRate(Elevator->GetElevatorPlayRate());
+			Elevator->ElevatorTimeline.PlayFromStart();
 			Elevator->BP_LiftMove();
 		}
 		OnProjeticleStartTriggering();

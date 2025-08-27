@@ -15,16 +15,13 @@ AElevatorBase::AElevatorBase()
 
 	ElevatorMesh = CreateDefaultSubobject<UStaticMeshComponent>("Elevator Mesh");
 	ElevatorMesh->SetupAttachment(RootComponent);
-
-
 }
 
 void AElevatorBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	// Update la timeline à chaque frame
-	MyTimeline.TickTimeline(DeltaTime);
+	
+	ElevatorTimeline.TickTimeline(DeltaTime);
 }
 
 float AElevatorBase::GetElevatorPlayRate()
@@ -56,16 +53,16 @@ void AElevatorBase::BeginPlay()
 	{
 		// Bind des fonctions
 		FOnTimelineFloat UpdateFunction{};
-		UpdateFunction.BindUFunction(this, FName("TimelineUpdate"));
+		UpdateFunction.BindUFunction(this, FName("OnLiftTimelineUpdated"));
 
 		FOnTimelineEvent FinishedFunction{};
-		FinishedFunction.BindUFunction(this, FName("TimelineFinished"));
+		FinishedFunction.BindUFunction(this, FName("OnLiftTimelineFinished"));
 
 		// Setup de la timeline
-		MyTimeline.AddInterpFloat(FloatCurve, UpdateFunction);
-		MyTimeline.SetTimelineFinishedFunc(FinishedFunction);
+		ElevatorTimeline.AddInterpFloat(FloatCurve, UpdateFunction);
+		ElevatorTimeline.SetTimelineFinishedFunc(FinishedFunction);
 
-		MyTimeline.SetLooping(false);   // Pas en boucle
+		ElevatorTimeline.SetLooping(false); 
 	}
 
 	GetElevatorPlayRate();
@@ -81,31 +78,21 @@ void AElevatorBase::BeginPlay()
 
 void AElevatorBase::OnLiftTimelineUpdated(float alpha)
 {
-
+	if (Direction)
+	{
+		FVector LerpAB = UKismetMathLibrary::VLerp(ALocation, BLocation, alpha);
+		ElevatorMesh->SetRelativeLocation(LerpAB);
+	}
+	else
+	{
+		FVector LerpBA = UKismetMathLibrary::VLerp(BLocation, ALocation, alpha);
+		ElevatorMesh->SetRelativeLocation(LerpBA);
+	}
 	
 	
 }
 
 void AElevatorBase::OnLiftTimelineFinished()
-{
-	
-}
-
-void AElevatorBase::TimelineUpdate(float Value)
-{
-	if (Direction)
-	{
-		FVector LerpAB = UKismetMathLibrary::VLerp(ALocation, BLocation, Value);
-		ElevatorMesh->SetRelativeLocation(LerpAB);
-	}
-	else
-	{
-		FVector LerpBA = UKismetMathLibrary::VLerp(BLocation, ALocation, Value);
-		ElevatorMesh->SetRelativeLocation(LerpBA);
-	}
-}
-
-void AElevatorBase::TimelineFinished()
 {
 	if (Direction)
 	{
@@ -131,6 +118,7 @@ void AElevatorBase::TimelineFinished()
 
 FHitResult AElevatorBase::BoxTraceForPhysicsCube()
 {
+	//Begin Variables pour le box trace
 	FVector Start = ElevatorMesh->GetComponentLocation();
 	FVector End = FVector(Start.X, Start.Y, Start.Z + 100.f);
 	FVector BoxExtent = FVector::ZeroVector;
@@ -141,8 +129,9 @@ FHitResult AElevatorBase::BoxTraceForPhysicsCube()
 	FHitResult OutHit;
 	ActorsToIgnore.Add(this);
 	FVector HalfSize = BoxExtent - FVector(15.f, 15.f, 0.f);
+	//End Variables pour le box trace
 	
-	bool bIsHit =UKismetSystemLibrary::BoxTraceSingle(GetWorld(), Start, End, HalfSize, FRotator(0.f, 0.f, 0.f), UEngineTypes::ConvertToTraceType(ECC_Visibility), false,
+	bool bIsHit =UKismetSystemLibrary::BoxTraceSingle(GetWorld(), Start, End, HalfSize, FRotator::ZeroRotator, UEngineTypes::ConvertToTraceType(ECC_Visibility), false,
 	ActorsToIgnore, EDrawDebugTrace::None,OutHit, true );
 	if (!bIsHit)
 	{
