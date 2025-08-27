@@ -76,8 +76,6 @@ protected:
 
 	//Timeline Begin
 	
-	
-
 	/** Curve asset pour piloter la timeline (à assigner dans l’éditeur ou par code) */
 	UPROPERTY(EditAnywhere, Category = "Timeline")
 	UCurveFloat* FloatCurve;
