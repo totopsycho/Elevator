@@ -36,6 +36,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UProjectileMovementComponent* ProjectileMovementComp;
 
+	UPROPERTY(EditAnywhere)
+	float ImpulseFactor;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

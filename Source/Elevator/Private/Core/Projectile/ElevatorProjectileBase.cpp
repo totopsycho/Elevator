@@ -4,6 +4,7 @@
 #include "Core/Projectile/ElevatorProjectileBase.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AElevatorProjectileBase::AElevatorProjectileBase()
@@ -34,6 +35,28 @@ void AElevatorProjectileBase::OnProjectileHit(UPrimitiveComponent* HitComponent,
 	if (OtherComp->IsSimulatingPhysics())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit Physic Actor"));
+
+		
+		float XImpactNormal = FMath::Abs(Hit.ImpactNormal.X);
+		float YImpactNormal = FMath::Abs(Hit.ImpactNormal.Y);
+		if (UKismetMathLibrary::NearlyEqual_FloatFloat(XImpactNormal, 1.f, 0.1f))
+		{
+			OtherComp->SetConstraintMode(EDOFMode::XZPlane);
+			OtherComp->AddImpulse(FVector(FMath::Sign(GetVelocity().X) * ImpulseFactor, 0.f, 0.f), NAME_None, true);
+			Destroy();
+		}
+		if (UKismetMathLibrary::NearlyEqual_FloatFloat(YImpactNormal, 1.f, 0.1f))
+		{
+			OtherComp->SetConstraintMode(EDOFMode::YZPlane);
+			OtherComp->AddImpulse(FVector(0.f, FMath::Sign(GetVelocity().Y) * ImpulseFactor, 0.f), NAME_None, true);
+			Destroy();
+		}
+		else
+		{
+			ProjectileMovementComp->bShouldBounce = true;
+		}
+		
+
 	}
 }
 
