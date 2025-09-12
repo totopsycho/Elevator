@@ -4,13 +4,36 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine/EngineTypes.h" 
 #include "EmitterLaserBase.generated.h"
+
 
 UENUM(BlueprintType)
 enum class ELaserType : uint8
 {
 	TeleportLaser,
 	DeadLaser
+};
+
+USTRUCT(BlueprintType)
+struct FLaserInfo
+{
+	GENERATED_BODY()
+
+public:
+
+	UPROPERTY(EditInstanceOnly)
+	float TraceMaxDistance = 1000.f;
+
+	UPROPERTY(EditInstanceOnly, meta = (ClampMin = "1.0", ClampMax = "4.0"))
+	float EmitterScale = 1.f;
+
+	UPROPERTY(EditInstanceOnly)
+	ELaserType LaserType;
+
+	UPROPERTY(EditInstanceOnly, meta = (MakeEditWidget = true))
+	FVector TeleportLocation;
+
 };
 
 UCLASS()
@@ -40,16 +63,8 @@ protected:
 	UFUNCTION()
 	void SphereTrace();
 
-	UPROPERTY(EditInstanceOnly, Category = "Laser Params")
-	float TraceMaxDistance = 1000.f;
+	UPROPERTY(EditInstanceOnly, Category = "Laser Info")
+	FLaserInfo LaserInfo;
 
-	UPROPERTY(EditInstanceOnly, Category = "Laser Params", meta = (ClampMin ="1.0", ClampMax = "4.0"))
-	float EmitterScale = 1.f;
-
-	UPROPERTY(EditInstanceOnly, Category = "Laser Params")
-	ELaserType LaserType;
-
-	UPROPERTY(EditInstanceOnly, Category = "Laser Params", meta =(MakeEditWidget = true))
-	FVector TeleportLocation;
 
 };
