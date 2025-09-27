@@ -35,7 +35,9 @@ void ACubeSpawner::Tick(float DeltaTime)
 
 void ACubeSpawner::SpawnCube()
 {
-	FVector SpawnLocation = FVector(600.f, -145.f, 856.f);
+	checkf(PhysicsCubeClass, TEXT("Verifier que vous avez bien spécifier la classe du cube dans %s"), *this->GetName());
+
+	FVector SpawnLocation = CubeSpawnerSystem->GetComponentLocation();
 	FRotator SpawnRotation = FRotator::ZeroRotator;
 	FTransform SpawnTransform(SpawnRotation, SpawnLocation);
 	FActorSpawnParameters SpawnParams;
@@ -45,7 +47,15 @@ void ACubeSpawner::SpawnCube()
 
 	if (SpawnedCube)
 	{
-		SpawnedCube->OnCubeDestroy.AddDynamic(this, &ThisClass::OnCubeDestroyed);
+		SpawnedCube->OnCubeDestroy.AddUniqueDynamic(this, &ThisClass::OnCubeDestroyed);
+		/*SpawnedCube->OnCubeDestroy.BindLambda([this](AActor* ElevatorCube)
+			{
+				FTimerHandle TimerHandle;
+				UE_LOG(LogTemp, Warning, TEXT("ElevatorCube is %s"), *ElevatorCube->GetName())
+				GetWorld()->GetTimerManager().SetTimer(
+					TimerHandle, this, &ACubeSpawner::SpawnCube, 2.f, false
+				);
+			});*/
 	}
 }
 

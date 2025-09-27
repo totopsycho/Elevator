@@ -8,6 +8,9 @@
 #include "Core/Interfaces/ProjectileInterface.h"
 #include "PhysicsCube.generated.h"
 
+/* DYNAMIC = Utilisable en blueprint
+MULTICAST = Plusieurs abonnés aux delegates */
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCubeDestroyedSignature);
 
 UCLASS()

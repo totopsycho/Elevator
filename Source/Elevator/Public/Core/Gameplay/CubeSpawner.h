@@ -18,14 +18,16 @@ public:
 	// Sets default values for this actor's properties
 	ACubeSpawner();
 
+
+	UPROPERTY()
+	APhysicsCube* SpawnedCube;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<APhysicsCube> PhysicsCubeClass;
+	
 
-	APhysicsCube* SpawnedCube;
 
 public:	
 	// Called every frame
@@ -44,5 +46,8 @@ private:
 
 	UFUNCTION()
 	void OnCubeDestroyed();
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<APhysicsCube> PhysicsCubeClass;
 
 };
